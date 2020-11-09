@@ -25,7 +25,6 @@ export const updateOrders = (info) => {
 
 
 export const searchpayWay = (info) => {
-  console.log(info);
   return request({
     url: '/orders/payWay',
     params: {
@@ -58,6 +57,17 @@ export const searchOrdersByTime = (info) => {
       payWay:info.payWay,
       start: info.time[0],
       end: info.time[1]
+    }
+  })
+}
+
+// 退货
+export const returnGoods = (orderNum) => {
+  return request({
+    url: '/orders/returnGoods',
+    method: 'post',
+    data: {
+      orderNum
     }
   })
 }

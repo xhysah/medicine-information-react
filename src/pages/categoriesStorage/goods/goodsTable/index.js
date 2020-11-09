@@ -41,6 +41,7 @@ export default memo(function (props) {
       key: 'goodsUrl',
       render: text => <img src={text} alt={text} style={{width:'50px', height: '50px'}}/>,
     },
+    
     {
       className:'colums',
       title: '商品价格',
@@ -48,6 +49,21 @@ export default memo(function (props) {
       dataIndex: 'price',
       key: 'price',
       render: text => <div style={{color: 'red'}}>¥{text}</div>,
+    },
+    {
+      className:'colums',
+      title: '商品描述',
+      align: 'center',
+      dataIndex: 'description',
+      key: 'description',
+    },
+    {
+      className:'salesNum',
+      title: '售出数量',
+      align: 'center',
+      dataIndex: 'salesNum',
+      key: 'updateTsalesNumime',
+      render: text => <div>{text}</div>,
     },
     {
       className:'colums',
@@ -65,27 +81,13 @@ export default memo(function (props) {
     },
     {
       className:'colums',
-      title: '商品描述',
-      align: 'center',
-      dataIndex: 'description',
-      key: 'description',
-    },
-    {
-      className:'colums',
       title: '添加时间',
       align: 'center',
       dataIndex: 'addTime',
       key: 'addTime',
       render: text => <div>{`${new Date(text).getFullYear()}-${new Date(text).getMonth()+1}-${new Date(text).getDate()}`}</div>,
     },
-    {
-      className:'colums',
-      title: '更新时间',
-      align: 'center',
-      dataIndex: 'updateTime',
-      key: 'updateTime',
-      render: text => <div>{`${new Date(text).getFullYear()}-${new Date(text).getMonth()+1}-${new Date(text).getDate()}`}</div>,
-    },
+    
     {
       className:'colums',
       title: '操作',

@@ -2,17 +2,13 @@ import React, { memo, useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { getOrderListAction } from '../store/actionCreators'
 import { searchOrdersDetails } from '@/services/orderDetails'
-import { updateOrders } from '@/services/orders'
+import { returnGoods } from '@/services/orders'
 
-import { Table, Button, Modal, message, Form, Input, Select, Tag } from 'antd'
+import { Table, Button, Tag, Popconfirm } from 'antd'
 
 export default memo(function () {
   const [data, setData] = useState({})
-  const [visible, setVisible] = useState(false)
   const [orderNum, setOrderNum] = useState()
-  const [form] = Form.useForm();
-  const [payWay, setPayWay] = useState(0);
-  const [fields, setFields] = useState();
   const { ordersList } = useSelector( state =>({
     ordersList: state.get('salesRecords').get('ordersList')
   }),shallowEqual)
@@ -37,10 +33,6 @@ export default memo(function () {
     }
   })
   
-  function handleCancel(){
-    setVisible(false)
-  }
-
   function change( expanded, record){
     if(expanded && typeof record.orderNum !== undefined){
       setOrderNum(record.orderNum)
@@ -51,27 +43,10 @@ export default memo(function () {
   })
   
 
-  function confirm(){
-    console.log(form.getFieldValue('orderNum'), payWay)
-    console.log(data);
-    updateOrders({
-      orderNum: form.getFieldValue('orderNum'),
-      orderStatus:1,
-      payWay,
-      shoppingCartList: data[form.getFieldValue('orderNum')]
+  function returnGood(text){
+    returnGoods(text.orderNum).then(res=>{
+      console.log(res);
     })
-    dispatch(getOrderListAction())
-    message.success('支付成功');
-    setVisible(false)
-  }
-
-  function pay (res){
-    setVisible(true)
-    setFields([
-      {name:['orderNum'],value: res.orderNum},
-      {name:['totalPrice'],value: res.totalPrice},
-      {name:['totalNum'],value: res.totalNum}
-    ])
   }
   function expandedRowRender(record, index, indent, expanded) {
     const columns = [
@@ -127,6 +102,32 @@ export default memo(function () {
       align: 'center',
     },
     {
+      title: '商品总价',
+      dataIndex: 'totalPrice',
+      key: 'totalPrice',
+      align: 'center',
+      render: text => <div style={{color: 'red'}}>¥{text}</div>
+    },
+    {
+      title: '商品种类',
+      dataIndex: 'totalNum',
+      key: 'totalNum',
+      align: 'center',
+    },
+    {
+      title: '订单状态',
+      dataIndex: 'orderStatus',
+      key: 'orderStatus',
+      align: 'center',
+      render: text =>{
+        if(text===1){
+          return <div style={{color: '#1890ff'}}>已支付</div>
+        }else if(text===2){
+          return <div>已退款</div>
+        }
+      }
+    },
+    {
       title: '支付方式',
       dataIndex: 'payWay',
       key: 'payWay',
@@ -144,40 +145,9 @@ export default memo(function () {
       }
     },
     {
-      title: '商品种类',
-      dataIndex: 'totalNum',
-      key: 'totalNum',
-      align: 'center',
-    },
-     {
-      title: '商品总价',
-      dataIndex: 'totalPrice',
-      key: 'totalPrice',
-      align: 'center',
-      render: text => <div style={{color: 'red'}}>¥{text}</div>
-    },
-    {
-      title: '创建时间',
+      title: '订单生成时间',
       dataIndex: 'createTime',
       key: 'createTime',
-      align: 'center',
-      render: text => {
-        const time = new Date(text)
-        function changeTime(fn, times){
-          const length = String(times[fn]()).length
-          if(length===1){
-            return `0${times[fn]()}`
-          }else{
-            return times[fn]()
-          }
-        }
-        return <div>{`${time.getFullYear()}-${time.getMonth()+1}-${time.getDate()} ${changeTime('getHours',time)}:${changeTime('getMinutes',time)}:${changeTime('getSeconds',time)}`}</div>
-      },
-    },
-    {
-      title: '付款时间',
-      dataIndex: 'payMentTime',
-      key: 'payMentTime',
       align: 'center',
       render: text => {
         const time = new Date(text)
@@ -198,70 +168,20 @@ export default memo(function () {
       align: 'center',
       key: 'action',
       render: (text, record) => {
-        if(text.orderStatus===1){
           return (
-            <div>
-              <Button size='small' style={{margin: '0 5px'}}>查看</Button>
-            </div>
-          )
-        }else{
-          return (
-            <div>
-              <Button size='small' style={{margin: '0 5px'}} onClick={e => pay(text)}>付款</Button>
-              <Modal
-                title="付款"
-                visible={visible}
-                footer={null}
-              >
-                <Form
-                  form={form}
-                  fields={fields}
-                  >
-                    <Form.Item
-                      name='orderNum'
-                      label='订单编号'
-                    >
-                      <Input allowClear={true}/>
-                    </Form.Item>
-                    <Form.Item
-                      name='totalPrice'
-                      label='商品总价'
-                    >
-                      <Input allowClear={true}/>
-                    </Form.Item>
-                    <Form.Item
-                      name='totalNum'
-                      label='商品总数'
-                    >
-                      <Input allowClear={true}/>
-                    </Form.Item>
-                    <Form.Item
-                      name='payWay'
-                      label='支付方式'
-                      rules={[
-                        {
-                          required: true,
-                          message: '请选择支付方式'
-                        },
-                      ]}
-                    >
-                      <Select allowClear={true} onChange={(value) => setPayWay(value)}>
-                        <Select.Option  value={1}>微信支付</Select.Option>
-                        <Select.Option  value={2}>支付宝支付</Select.Option>
-                        <Select.Option  value={3}>现金支付</Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item style={{textAlign: "center"}}>
-                    <Button type="primary" htmlType="submit" style={{margin:'0 20px'}} onClick={e => confirm()}>
-                        确定
-                    </Button>
-                    <Button  onClick={handleCancel}>取消</Button>
-                </Form.Item>
-                  </Form>
-              </Modal>
-            </div>
-          )
-        }
+          <div>
+            <Popconfirm
+              title="确认要退货退款吗"
+              okText="确认"
+              placement="top"
+              cancelText="取消"
+              onConfirm={e=>returnGood(text)}
+              disabled={!(text.orderStatus===1)}
+            >
+              <Button size='small' style={{margin: '0 5px'}} disabled={!(text.orderStatus===1)}>退货</Button>
+            </Popconfirm>
+          </div>
+        )
       }
     },
   ];
@@ -273,7 +193,6 @@ export default memo(function () {
         dataSource={ordersListKey} 
         columns={columns}
         expandable={{ expandedRowRender }}
-        expandRowByClick={true}
         onExpand={change}
         />
     </div>
