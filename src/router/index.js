@@ -9,14 +9,14 @@ import SalesRecords from '@/pages/salesRecords'
 import Statistics from '@/pages/statistics'
 import CategoriesStorage from '@/pages/categoriesStorage'
 
-
 const routes = [
     {
         path: "/",
         exact: true,
-        render: () => (
-          <Redirect to='/login'/>
-        )
+        render: () => {
+            const token = localStorage.getItem('token')
+            return token? <Redirect to='/main/goodsManage'/> : <Redirect to='/login'/>
+        }
     },
     {
         path: '/main',
@@ -25,25 +25,38 @@ const routes = [
             {
                 path: '/main',
                 exact: true,
-                render: () =>(
-                    <Redirect to='/main/goodsManage'/>
-                )
+                render: () =>{
+                    const token = localStorage.getItem('token')
+                    return token? <Redirect to='/main/goodsManage'/> : <Redirect to='/login'/>
+                }
             },
             {
                 path: '/main/goodsManage',
-                component: GoodsManage
+                render: () =>{
+                    const token = localStorage.getItem('token')
+                    return token? <GoodsManage/> : <Redirect to='/login'/>
+                }
             },
             {
                 path: '/main/salesRecords',
-                component: SalesRecords
+                render: () =>{
+                    const token = localStorage.getItem('token')
+                    return token? <SalesRecords/> : <Redirect to='/login'/>
+                }
             },
             {
                 path: '/main/statistics',
-                component: Statistics
+                render: () =>{
+                    const token = localStorage.getItem('token')
+                    return token? <Statistics/> : <Redirect to='/login'/>
+                }
             },
             {
                 path: '/main/categoriesStorage',
-                component: CategoriesStorage
+                render: () =>{
+                    const token = localStorage.getItem('token')
+                    return token? <CategoriesStorage/> : <Redirect to='/login'/>
+                }
             }
         ]
     },
@@ -52,7 +65,7 @@ const routes = [
         component: Login
     },
     {
-        path: '/notAllow',
+        path: '',
         component: NotAllow
     }
 ]

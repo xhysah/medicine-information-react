@@ -2,7 +2,7 @@ import request from './axios'
 
 export const getCategories = ()=> {
   return request({
-      url: '/categories'
+      url: '/categories/search'
   })
 }
 

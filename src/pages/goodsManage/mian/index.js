@@ -17,8 +17,7 @@ export default memo(function (props) {
 
   useEffect(() => {
     dispatch(getChangeCategoriesAction())
-  },[ dispatch])
-  
+  },[dispatch])
   return (
     <MainWrapper>
       <Tabs defaultActiveKey='1'>
