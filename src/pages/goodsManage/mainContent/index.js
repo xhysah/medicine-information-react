@@ -12,7 +12,7 @@ import { Carousel } from 'antd';
 
 export default memo(function (props) {
   const refCarousel = useRef()
-  const { cid} = props
+  const { cid } = props
   const [goodsList, setGoodsList] = useState([])
   useEffect(() => {
     getGoodsList(cid).then(res => {
@@ -83,8 +83,8 @@ export default memo(function (props) {
           })
         }
       </Carousel>
-      <LeftOutlined className='left' style={{ fontSize: '30px' }} onClick={e => goLeft()}/>
-      <RightOutlined className='right' style={{ fontSize: '30px' }} onClick={e => goRight()}/>
+      <LeftOutlined className='left' style={{ fontSize: '30px', color: '#1890ff' }} onClick={e => goLeft()}/>
+      <RightOutlined className='right' style={{ fontSize: '30px' ,color: '#1890ff' }} onClick={e => goRight()}/>
     </MainContentWrapper>
   )
 })

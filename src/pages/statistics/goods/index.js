@@ -3,7 +3,8 @@ import ReactEcharts from 'echarts-for-react';
 import { shallowEqual, useDispatch, useSelector }  from 'react-redux'
 import { getChangeCategoriesAction } from '@/pages/goodsManage/store/actionCreators'
 import { getChangeGoodsListAction } from '@/pages/goodsManage/store/actionCreators'
-import { Button } from 'antd';
+import { GoodsWrapper } from './../payWay/style'
+import { Tag } from 'antd';
 import { useState } from 'react';
 
 export default memo(function () {
@@ -24,6 +25,8 @@ export default memo(function () {
   useEffect(() => {
     dispatch(getChangeGoodsListAction(cid))
   },[cid, dispatch])
+
+  const colors = ['magenta','red','volcano','orange','gold','lime','green','cyan','blue','geekblue','purple']
   const option = {
     tooltip: {
         trigger: 'axis',
@@ -67,11 +70,13 @@ export default memo(function () {
     ]
 };
   return (
-    <div>
-      {categories.map(item =>{
-        return <Button onClick={e=> setCid(item.cid)} key={item.cid}>{item.cname}</Button>
-      })}
-      <ReactEcharts option={option}/>
-    </div>
+    <GoodsWrapper>
+      <div className='tags'>
+        {categories.map((item,index) =>{
+          return <Tag color={colors[(index%11)]} className='tag' key={item.cid} onClick={e=> setCid(item.cid)}>{item.cname}</Tag>
+        })}
+      </div>
+      <ReactEcharts option={option} className='echart'/>
+    </GoodsWrapper>
   )
 })

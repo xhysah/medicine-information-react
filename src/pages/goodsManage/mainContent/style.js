@@ -6,37 +6,33 @@ export const MainContentWrapper = styled.div`
   }
   .grid{
     display: inline-grid !important;
-    grid-template-columns: repeat(5,18.5%);
+    grid-template-columns: repeat(5,20%);
     width: auto;
     justify-content: center !important;
     justify-items: center;
   }
   .left{
     position: absolute;
-    width: 40px;
+    width: 20px;
     margin: 0 5px;
-    padding: 100px 0;
-    top: 30%;
+    padding: 300px 10px;
+    top: 10%;
     cursor: pointer;
-    color: #999;
     &:hover{
-      background-color:#e2e4e6;
-      color: white;
+      background-color:transparent;
     }
   }
 
   .right{
     position: absolute;
-    width: 40px;
-    margin: 0 5px;
-    padding: 100px 0;
-    top: 30%;
+    width: 20px;
+    margin: 0 5px 0 0;
+    padding: 300px 10px 300px 0;
+    top: 10%;
     cursor: pointer;
-    right:0;
-    color: #999;
+    right:15px;
     &:hover{
-      background-color:#e2e4e6;
-      color: white;
+      background-color:transparent;
     }
   }
 `

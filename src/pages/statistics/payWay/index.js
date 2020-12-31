@@ -1,7 +1,8 @@
 import React, { memo, useEffect, useState } from 'react'
 import ReactEcharts from 'echarts-for-react';
 import { searchpayWay } from '@/services/orders'
-import { DatePicker, Button } from 'antd'
+import { DatePicker, Button, Statistic } from 'antd'
+import { PayWayWrapper } from './style'
 const { RangePicker } = DatePicker;
 
 export default memo(function () {
@@ -23,10 +24,6 @@ export default memo(function () {
   console.log(payWay)
   const total = Math.abs(payWay['1'].totalPrice+ payWay['2'].totalPrice+ payWay['3'].totalPrice).toString();
   const option = {
-    title: {
-        text: '支付方式',
-        left: 'center'
-    },
     tooltip:{
         trigger: 'item',
         formatter: '{a} <br/>{b} : {c} ({d}%)'
@@ -76,15 +73,17 @@ export default memo(function () {
     ]
 };
   return (
-    <div>
-      <span>时间段：</span>
-        <RangePicker
-          onChange={onChange}
-          allowClear={true}
-        />
-        <Button type="primary" style={{margin:'0 10px'}} onClick={e => search()}>查询</Button>
-        <div>{total}</div>
-       <ReactEcharts option={option} />
-    </div>
+    <PayWayWrapper>
+      <div className='time'>
+        <span>时间段：</span>
+          <RangePicker
+            onChange={onChange}
+            allowClear={true}
+          />
+          <Button type="primary" style={{margin:'0 10px'}} onClick={e => search()}>查询</Button>
+      </div>
+      <Statistic title="售出总金额" value={total} precision={2}  className='total'/>
+      <ReactEcharts option={option}style={{marginTop: '-60px'}} />
+    </PayWayWrapper>
   )
 })

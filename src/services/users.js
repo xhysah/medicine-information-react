@@ -10,3 +10,14 @@ export const login = (loginInf) =>{
     }
   })
 }
+export const registers = (registerInf,role) =>{
+  return request({
+    url: '/users/register',
+    method: 'post',
+    data: {
+      username: registerInf.username,
+      password: registerInf.password1,
+      role: role
+    }
+  })
+}

@@ -1,9 +1,11 @@
 import React, { memo, useState } from 'react'
 
 import { Modal, Form, Input, Button, message } from 'antd';
+import { useDispatch } from 'react-redux'
 import Upload  from '@/components/upload'
 import { PlusOutlined } from '@ant-design/icons';
-import { AddCategoryWrapper } from './../../style'
+import { AddCategoryWrapper } from './../../style';
+import { getChangeCategoriesAction } from '@/pages/goodsManage/store/actionCreators'
 
 
 export default memo(function (props) {
@@ -20,11 +22,14 @@ export default memo(function (props) {
     setVisible(false)
     form.resetFields();
   }
+  const dispatch = useDispatch()
+
   const onFinish = (values) => {
     console.log('Success:', values);
     addCategories(values)
     setVisible(false)
-    message.success('添加新的分类成功');
+    dispatch(getChangeCategoriesAction()) 
+    message.success('添加分类成功');
   };
 
   const onFinishFailed = (errorInfo) => {
