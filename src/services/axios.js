@@ -1,5 +1,6 @@
 import Axios from 'axios'
 
+
 export default function request ( option ){
     return new Promise((resolve, reject) => {
         const instance = Axios.create({
@@ -21,6 +22,9 @@ export default function request ( option ){
                 return response.data
             }else{
                 localStorage.removeItem('token')
+                localStorage.removeItem('username')
+                localStorage.removeItem('role')
+                window.location.href = '/login';
             }
         } , err => {
             throw err

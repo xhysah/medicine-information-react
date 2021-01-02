@@ -28,7 +28,7 @@ export default memo(function () {
         const dataM = {...data}
         dataM[orderNum]= items
         setData(dataM)
-        
+
       })
     }
   })

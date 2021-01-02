@@ -8,6 +8,7 @@ import GoodsManage from '@/pages/goodsManage'
 import SalesRecords from '@/pages/salesRecords'
 import Statistics from '@/pages/statistics'
 import CategoriesStorage from '@/pages/categoriesStorage'
+import User from '@/pages/user'
 
 const routes = [
     {
@@ -57,6 +58,13 @@ const routes = [
                     const token = localStorage.getItem('token')
                     return token? <CategoriesStorage/> : <Redirect to='/login'/>
                 }
+            },
+            {
+                path: '/main/user',
+                render: () =>{
+                    const token = localStorage.getItem('token')
+                    return token? <User/> : <Redirect to='/login'/>
+                }
             }
         ]
     },
@@ -65,7 +73,7 @@ const routes = [
         component: Login
     },
     {
-        path: '',
+        path: '/404',
         component: NotAllow
     }
 ]
