@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 
 export const CategoryWrapper = styled.div`
-  padding: 5px 10px;
+  margin: 5px;
+  /* padding: 5px 10px; */
   img{
     width: 100%;
     height: 100%;

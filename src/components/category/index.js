@@ -50,7 +50,7 @@ export default memo(function (props) {
   ]
   return (
     <CategoryWrapper>
-      <Card style={{width: '240px', height: '260px'}}>
+      <Card style={{width: '160px', height: '180px'}}>
         <EditOutlined className='close' onClick={e =>editCategory()}/>
         <img src={category.imgUrl} alt={category.cname}/>
         <div>{category.cname}</div>

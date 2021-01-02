@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const CategoriesWrapper = styled.div`
   .categories{
     display: grid;
-    grid-template-columns: repeat(5,20%); 
+    grid-template-columns: repeat(7, 1fr);
   }
   .goods{
     margin: 10px;
