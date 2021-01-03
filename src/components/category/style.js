@@ -22,4 +22,5 @@ export const CategoryWrapper = styled.div`
   .ant-card-body{
     padding: 10px;
   }
+
 `

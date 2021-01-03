@@ -5,11 +5,8 @@ export const MainContentWrapper = styled.div`
     margin: 0 auto;
   }
   .grid{
-    display: inline-grid !important;
+    display: grid !important;
     grid-template-columns: repeat(5,20%);
-    width: auto;
-    justify-content: center !important;
-    justify-items: center;
   }
   .left{
     position: absolute;

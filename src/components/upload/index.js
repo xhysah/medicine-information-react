@@ -30,6 +30,7 @@ export default memo(function (props) {
 
   const handleChange = ({ fileList,file }) => {
     if(file.response){
+      console.log(file)
       setImgUrl({[imgUrl]: `http://localhost:3000/${file.response.path.slice(7)}`})
     }
     setFileList([...fileList])
@@ -80,6 +81,9 @@ export default memo(function (props) {
           onPreview={handlePreview}
           onChange={handleChange}
           data={getExtraData}
+          headers={{
+            'Authorization': localStorage.getItem('token')
+        }}
         >
           {fileList.length >= 1 ? null : uploadButton}
         </Upload>

@@ -12,7 +12,7 @@ import { Carousel } from 'antd';
 
 export default memo(function (props) {
   const refCarousel = useRef()
-  const { cid } = props
+  const { cid} = props
   const [goodsList, setGoodsList] = useState([])
   useEffect(() => {
     getGoodsList(cid).then(res => {

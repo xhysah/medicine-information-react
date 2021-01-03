@@ -16,10 +16,9 @@ export default memo(function (props) {
     dispatch(getChangeCategoriesAction()) 
   },[dispatch])
   const [visible, setVisible] = useState(false)
-  const [cid, setCid] = useState(false)
   
   const { alterGoods, text} = props
-
+  const [cid, setCid] = useState(text.cid)
   function showAddNewCategories() {
     // addCategories()
     setVisible(!visible)
@@ -30,11 +29,9 @@ export default memo(function (props) {
     form.resetFields();
   }
   const onFinish = (values) => {
-    
-    values.goodsId = text.goodsId
-    console.log('Success:', values);
-    alterGoods(values)
     setVisible(false)
+    values.goodsId = text.goodsId
+    alterGoods(values)
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -90,8 +87,10 @@ export default memo(function (props) {
           onCancel={e => handleCancel()}
           footer={null}
           maskClosable={false}
+          destroyOnClose={true}
         >
         <Form
+        preserve={false}
         form={form}
         fields={fields}
         onFinish={onFinish}
